@@ -1,0 +1,5 @@
+{
+  "name": "Peso_Ganadero_AI",
+  "description": "Una aplicación web que utiliza inteligencia artificial para estimar el peso del ganado a partir de una fotografía. Sube una imagen y obtén un análisis de peso, raza y condición corporal.",
+  "requestFramePermissions": []
+}
