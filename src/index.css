@@ -39,6 +39,15 @@ header {
     position: relative;
 }
 
+/* Estilos para el footer */
+footer {
+    background: linear-gradient(to right, rgba(22, 163, 74, 0.05), rgba(22, 163, 74, 0.02));
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
 /* Estilos para botones */
 button:disabled {
     cursor: not-allowed;
@@ -76,6 +85,10 @@ input:focus {
 @media (prefers-color-scheme: dark) {
     .cow-icon img {
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) brightness(1.1);
+    }
+    
+    footer {
+        background: linear-gradient(to right, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
     }
 }
 
