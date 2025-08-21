@@ -142,6 +142,11 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // No interceptar solicitudes HEAD, PUT, DELETE, etc.
+  if (request.method !== 'GET') {
+    return;
+  }
+
   // Manejo especial para favicon
   if (request.url.includes('favicon.ico')) {
     event.respondWith(
