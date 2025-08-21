@@ -50,7 +50,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
                 streamRef.current = stream;
-                
+
                 // Esperar a que el video esté listo
                 videoRef.current.onloadedmetadata = () => {
                     console.log('Video metadata cargado');
@@ -73,7 +73,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
         } catch (error) {
             console.error('Error al acceder a la cámara:', error);
             setShowCamera(false);
-            
+
             if (error instanceof Error) {
                 if (error.name === 'NotAllowedError') {
                     alert('Permiso denegado para acceder a la cámara. Verifica los permisos del navegador.');
@@ -229,11 +229,10 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                             <button
                                 onClick={capturePhoto}
                                 disabled={!isCameraActive}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                                    isCameraActive 
-                                        ? 'bg-green-600 text-white hover:bg-green-700' 
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${isCameraActive
+                                        ? 'bg-green-600 text-white hover:bg-green-700'
                                         : 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                                }`}
+                                    }`}
                             >
                                 {isCameraActive ? '📸 Capturar Foto' : '⏳ Cargando...'}
                             </button>
@@ -272,8 +271,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                             <div
                                 {...getRootProps()}
                                 className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${isDragActive
-                                        ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                                        : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500'
+                                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                                    : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500'
                                     }`}
                             >
                                 <input {...getInputProps()} />

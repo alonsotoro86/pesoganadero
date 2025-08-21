@@ -180,35 +180,35 @@ const App: React.FC = () => {
                 <div className="w-full max-w-md mx-auto">
                     <Header historyCount={history.length} onViewHistory={() => setView('history')} />
                     <main className="mt-8 space-y-6">
-                                                            {view === 'home' && (
-                                        <>
-                                            <ImageUploader onImageUpload={handleImageUpload} previewUrl={imagePreviewUrl} />
-                                            
-                                            {/* Temporary camera test */}
-                                            <div className="mt-4">
-                                                <CameraTest />
-                                            </div>
-                                            
-                                            {imageFile && !isLoading && (
-                                                <button
-                                                    onClick={handleAnalyzeClick}
-                                                    disabled={isLoading || !connectionStatus.isOnline}
-                                                    className="btn-primary w-full flex items-center justify-center gap-2"
-                                                >
-                                                    <RocketIcon />
-                                                    {!connectionStatus.isOnline ? 'Sin Conexión' : 'Calcular Peso'}
-                                                </button>
-                                            )}
-                                            {!connectionStatus.isOnline && (
-                                                <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg">
-                                                    <p className="text-sm">
-                                                        <strong>Modo Offline:</strong> Puedes ver el historial y preparar fotos.
-                                                        El análisis de IA requiere conexión a internet.
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </>
-                                    )}
+                        {view === 'home' && (
+                            <>
+                                <ImageUploader onImageUpload={handleImageUpload} previewUrl={imagePreviewUrl} />
+
+                                {/* Temporary camera test */}
+                                <div className="mt-4">
+                                    <CameraTest />
+                                </div>
+
+                                {imageFile && !isLoading && (
+                                    <button
+                                        onClick={handleAnalyzeClick}
+                                        disabled={isLoading || !connectionStatus.isOnline}
+                                        className="btn-primary w-full flex items-center justify-center gap-2"
+                                    >
+                                        <RocketIcon />
+                                        {!connectionStatus.isOnline ? 'Sin Conexión' : 'Calcular Peso'}
+                                    </button>
+                                )}
+                                {!connectionStatus.isOnline && (
+                                    <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg">
+                                        <p className="text-sm">
+                                            <strong>Modo Offline:</strong> Puedes ver el historial y preparar fotos.
+                                            El análisis de IA requiere conexión a internet.
+                                        </p>
+                                    </div>
+                                )}
+                            </>
+                        )}
 
                         {isLoading && <Spinner />}
 

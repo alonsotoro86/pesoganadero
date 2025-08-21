@@ -20,7 +20,7 @@ export const CameraTest: React.FC = () => {
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
                 streamRef.current = stream;
-                
+
                 videoRef.current.onloadedmetadata = () => {
                     videoRef.current?.play().then(() => {
                         setIsActive(true);
@@ -57,7 +57,7 @@ export const CameraTest: React.FC = () => {
     return (
         <div className="p-4 bg-white rounded-lg shadow">
             <h3 className="text-lg font-bold mb-4">🧪 Prueba de Cámara</h3>
-            
+
             {error && (
                 <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
                     ❌ Error: {error}
