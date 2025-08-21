@@ -44,7 +44,6 @@ const App: React.FC = () => {
         }
     }, [history]);
 
-
     const handleImageUpload = (file: File) => {
         setImageFile(file);
         setAnalysisResult(null);
@@ -140,7 +139,7 @@ const App: React.FC = () => {
                                 <button
                                     onClick={handleAnalyzeClick}
                                     disabled={isLoading}
-                                    className="w-full flex items-center justify-center gap-2 bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-400 transition-colors duration-300 shadow-lg"
+                                    className="btn-primary w-full flex items-center justify-center gap-2"
                                 >
                                     <RocketIcon />
                                     Calcular Peso
@@ -161,20 +160,20 @@ const App: React.FC = () => {
                     {view === 'result' && analysisResult && (
                        <div className="animate-fade-in space-y-4">
                             <ResultDisplay result={analysisResult} imageUrl={imagePreviewUrl!} />
-                            <div className="space-y-3 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+                            <div className="card space-y-3">
                                 <h3 className="font-bold text-lg text-center mb-2">Guardar en el Historial</h3>
                                 <input
                                     type="text"
                                     value={animalName}
                                     onChange={(e) => setAnimalName(e.target.value)}
                                     placeholder="Nombre o N° del animal (ej: 015, Manchitas)"
-                                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                    className="input-field"
                                     aria-label="Nombre o número del animal"
                                 />
                                 <button
                                     onClick={handleSaveToHistory}
                                     disabled={!animalName.trim()}
-                                    className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-300"
+                                    className="btn-secondary w-full flex items-center justify-center gap-2"
                                 >
                                     <SaveIcon />
                                     Guardar
@@ -182,7 +181,7 @@ const App: React.FC = () => {
                             </div>
                              <button
                                 onClick={handleReset}
-                                className="w-full flex items-center justify-center gap-2 bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-300 text-sm"
+                                className="btn-gray w-full flex items-center justify-center gap-2"
                             >
                                 <ResetIcon />
                                 Analizar otra foto (No Guardar)
@@ -199,7 +198,7 @@ const App: React.FC = () => {
                             />
                              <button
                                 onClick={handleReset}
-                                className="w-full flex items-center justify-center gap-2 bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300 mt-4"
+                                className="btn-primary w-full flex items-center justify-center gap-2 mt-4"
                             >
                                 <BackIcon />
                                 Volver al Inicio
