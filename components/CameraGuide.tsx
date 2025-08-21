@@ -11,13 +11,13 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible }) => {
         <div className="absolute inset-0 pointer-events-none camera-guide">
             {/* Marco de guía principal */}
             <div className="absolute inset-4 border-2 border-white border-dashed rounded-lg opacity-80 guide-frame"></div>
-            
+
             {/* Indicadores de esquina */}
             <div className="absolute top-4 left-4 w-8 h-8 border-l-4 border-t-4 border-green-400 rounded-tl-lg"></div>
             <div className="absolute top-4 right-4 w-8 h-8 border-r-4 border-t-4 border-green-400 rounded-tr-lg"></div>
             <div className="absolute bottom-4 left-4 w-8 h-8 border-l-4 border-b-4 border-green-400 rounded-bl-lg"></div>
             <div className="absolute bottom-4 right-4 w-8 h-8 border-r-4 border-b-4 border-green-400 rounded-br-lg"></div>
-            
+
             {/* Líneas de distancia - Zona óptima (3-5 metros) */}
             <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center gap-2">
@@ -65,7 +65,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible }) => {
             {/* Líneas verticales de referencia */}
             <div className="absolute top-1/4 left-1/4 w-0.5 h-32 bg-green-400 opacity-60"></div>
             <div className="absolute top-1/4 right-1/4 w-0.5 h-32 bg-green-400 opacity-60"></div>
-            
+
             {/* Líneas horizontales de referencia */}
             <div className="absolute top-1/4 left-1/4 w-32 h-0.5 bg-green-400 opacity-60"></div>
             <div className="absolute top-1/4 right-1/4 w-32 h-0.5 bg-green-400 opacity-60"></div>
@@ -79,7 +79,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible }) => {
                     <p className="text-xs opacity-90">Vista lateral, distancia óptima 3-5m</p>
                 </div>
             </div>
-            
+
             {/* Indicador de ángulo */}
             <div className="absolute bottom-1/4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
                 📐 90° Lateral

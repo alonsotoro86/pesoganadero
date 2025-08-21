@@ -85,8 +85,15 @@ footer a:hover {
 
 /* Animación para las líneas de distancia */
 @keyframes distancePulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 0.3; }
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
 }
 
 .camera-guide .bg-green-400 {

@@ -142,7 +142,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                             <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-center">
                                 <div className="text-6xl mb-2">📏</div>
                                 <p className="text-gray-600 dark:text-gray-400 text-sm">
-                                    En la cámara verás líneas horizontales de colores. 
+                                    En la cámara verás líneas horizontales de colores.
                                     <br />
                                     <strong>Objetivo:</strong> El animal debe tocar la línea verde central.
                                 </p>
