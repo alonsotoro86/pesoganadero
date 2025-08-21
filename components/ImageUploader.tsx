@@ -139,7 +139,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                     </div>
                 ) : showCamera ? (
                     <div className="space-y-4">
-                        <div className="relative">
+                        <div className="relative camera-container">
                             <video
                                 ref={videoRef}
                                 autoPlay
