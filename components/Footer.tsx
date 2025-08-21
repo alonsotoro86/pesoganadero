@@ -5,10 +5,10 @@ export const Footer: React.FC = () => {
         <footer className="mt-auto py-4 px-4 text-center text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-center gap-2 text-sm">
                 <span>Desarrollado por</span>
-                <img
-                    src="/images/logo-monarca.png"
-                    alt="Monarca SQA Logo"
-                    className="h-4 w-auto opacity-80 hover:opacity-100 transition-opacity duration-200"
+                                <img 
+                    src="/images/logo-monarca.png" 
+                    alt="Monarca SQA Logo" 
+                    className="h-6 w-auto opacity-80 hover:opacity-100 transition-opacity duration-200"
                 />
                 <a
                     href="https://monarca-sqa.com"
