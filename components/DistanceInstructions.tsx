@@ -14,7 +14,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                 {/* Header */}
                 <div className="bg-green-600 text-white p-4">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-xl font-bold">📏 Distancia Óptima</h2>
+                        <h2 className="text-xl font-bold">📏 Medición Inteligente</h2>
                         <button
                             onClick={onClose}
                             className="text-white hover:text-gray-200 text-xl font-bold"
@@ -29,30 +29,63 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                     <div className="space-y-4">
                         {/* Instrucción simple */}
                         <div className="text-center">
-                            <div className="text-4xl mb-3">📏</div>
+                            <div className="text-4xl mb-3">🤖</div>
                             <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
-                                Línea Verde = 3-5 metros
+                                IA Detecta y Mide Automáticamente
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400 text-sm">
-                                Ajusta tu distancia hasta que el animal toque la línea verde en la pantalla.
+                                La aplicación detecta automáticamente el animal y mide la distancia en tiempo real.
                             </p>
                         </div>
 
-                        {/* Distancia */}
-                        <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                            <div className="flex items-center gap-2 mb-2">
-                                <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-                                <span className="font-semibold text-green-700 dark:text-green-400">3-5 metros = Análisis preciso</span>
+                        {/* Indicadores de color */}
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                <div className="w-8 h-6 bg-green-500 rounded-sm flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">📏</span>
+                                </div>
+                                <div>
+                                    <span className="font-semibold text-green-700 dark:text-green-400">Verde (3-5m):</span>
+                                    <span className="text-sm text-green-600 dark:text-green-400 ml-2">¡Perfecto! Toma la foto</span>
+                                </div>
                             </div>
-                            <p className="text-sm text-green-600 dark:text-green-400">
-                                Esta distancia asegura los mejores resultados del análisis de peso.
-                            </p>
+                            
+                            <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                                <div className="w-8 h-6 bg-yellow-500 rounded-sm flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">⚠️</span>
+                                </div>
+                                <div>
+                                    <span className="font-semibold text-yellow-700 dark:text-yellow-400">Amarillo:</span>
+                                    <span className="text-sm text-yellow-600 dark:text-yellow-400 ml-2">Ajusta la distancia</span>
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                                <div className="w-8 h-6 bg-red-500 rounded-sm flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">❌</span>
+                                </div>
+                                <div>
+                                    <span className="font-semibold text-red-700 dark:text-red-400">Rojo:</span>
+                                    <span className="text-sm text-red-600 dark:text-red-400 ml-2">Muy cerca o muy lejos</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Funcionalidades */}
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                            <h4 className="font-semibold text-blue-700 dark:text-blue-400 mb-2">✨ Funcionalidades:</h4>
+                            <ul className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                                <li>• <strong>Detección automática</strong> del animal</li>
+                                <li>• <strong>Medición en tiempo real</strong> de la distancia</li>
+                                <li>• <strong>Indicadores visuales</strong> con colores</li>
+                                <li>• <strong>Instrucciones dinámicas</strong> para ajustar</li>
+                            </ul>
                         </div>
 
                         {/* Consejo rápido */}
-                        <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-                            <p className="text-sm text-blue-700 dark:text-blue-400">
-                                💡 <strong>Tip:</strong> Camina hacia atrás o adelante hasta que el animal toque la línea verde.
+                        <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                            <p className="text-sm text-purple-700 dark:text-purple-400">
+                                💡 <strong>Tip:</strong> La línea cambia de color automáticamente. Espera a que sea verde para obtener el mejor resultado.
                             </p>
                         </div>
                     </div>
