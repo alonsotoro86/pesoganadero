@@ -6,30 +6,12 @@ type IconProps = {
 };
 
 export const CowIcon: React.FC<IconProps> = ({ className = "h-12 w-12" }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        {/* Cabeza de la vaca */}
-        <ellipse cx="12" cy="8" rx="4" ry="3" />
-        {/* Orejas */}
-        <path d="M8 6c-1 0-2 1-2 2s1 2 2 2" />
-        <path d="M16 6c1 0 2 1 2 2s-1 2-2 2" />
-        {/* Ojos */}
-        <circle cx="10" cy="7" r="0.5" fill="currentColor" />
-        <circle cx="14" cy="7" r="0.5" fill="currentColor" />
-        {/* Nariz */}
-        <ellipse cx="12" cy="9" rx="1" ry="0.5" />
-        {/* Cuerpo */}
-        <ellipse cx="12" cy="16" rx="6" ry="4" />
-        {/* Patas */}
-        <line x1="8" y1="20" x2="8" y2="24" />
-        <line x1="10" y1="20" x2="10" y2="24" />
-        <line x1="14" y1="20" x2="14" y2="24" />
-        <line x1="16" y1="20" x2="16" y2="24" />
-        {/* Cola */}
-        <path d="M18 14c2 0 3 1 3 2s-1 2-3 2" />
-        {/* Manchas */}
-        <ellipse cx="9" cy="14" rx="1" ry="0.8" fill="currentColor" opacity="0.3" />
-        <ellipse cx="15" cy="12" rx="1.2" ry="1" fill="currentColor" opacity="0.3" />
-    </svg>
+    <img 
+        src="/images/logo-toro-verde.png" 
+        alt="Peso Ganadero AI Logo" 
+        className={className}
+        style={{ objectFit: 'contain' }}
+    />
 );
 
 
