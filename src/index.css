@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos base para la aplicación Peso Ganadero AI */
+
+/* Animación de fade-in para resultados */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+}
+
+/* Estilos para el logo del toro */
+.cow-icon {
+    transition: transform 0.2s ease;
+}
+
+.cow-icon:hover {
+    transform: scale(1.05);
+}
+
+.cow-icon img {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Estilos para el header */
+header {
+    position: relative;
+}
+
+/* Estilos para botones */
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Estilos para inputs */
+input:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+/* Estilos para el spinner */
+.spinner {
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #16a34a;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .cow-icon img {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) brightness(1.1);
+    }
+}
+
+/* Estilos personalizados para componentes */
+@layer components {
+    .btn-primary {
+        @apply bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-400 transition-colors duration-300 shadow-lg;
+    }
+    
+    .btn-secondary {
+        @apply bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-300;
+    }
+    
+    .btn-gray {
+        @apply bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-300 text-sm;
+    }
+    
+    .input-field {
+        @apply w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500;
+    }
+    
+    .card {
+        @apply bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md;
+    }
+}
