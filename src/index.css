@@ -83,6 +83,31 @@ footer a:hover {
     animation: cameraPulse 2s ease-in-out infinite;
 }
 
+/* Animación para las líneas de distancia */
+@keyframes distancePulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.3; }
+}
+
+.camera-guide .bg-green-400 {
+    animation: distancePulse 3s ease-in-out infinite;
+}
+
+.camera-guide .bg-yellow-400 {
+    animation: distancePulse 3s ease-in-out infinite 0.5s;
+}
+
+.camera-guide .bg-red-400 {
+    animation: distancePulse 3s ease-in-out infinite 1s;
+}
+
+/* Efecto de brillo para las líneas de distancia */
+.camera-guide .bg-green-400,
+.camera-guide .bg-yellow-400,
+.camera-guide .bg-red-400 {
+    box-shadow: 0 0 4px currentColor;
+}
+
 /* Estilos para botones */
 button:disabled {
     cursor: not-allowed;
