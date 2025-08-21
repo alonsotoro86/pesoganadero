@@ -3,6 +3,7 @@ import React, { useCallback, useState, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { PhotoIcon, ArrowUpTrayIcon, CameraIcon } from './icons';
 import { PhotoGuide } from './PhotoGuide';
+import { CameraGuide } from './CameraGuide';
 
 interface ImageUploaderProps {
     onImageUpload: (file: File) => void;
