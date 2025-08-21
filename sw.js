@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'peso-ganadero-v3';
+const CACHE_NAME = 'peso-ganadero-v4';
 const STATIC_CACHE = 'peso-ganadero-static-v2';
 const DYNAMIC_CACHE = 'peso-ganadero-dynamic-v2';
 
