@@ -4,12 +4,14 @@ import { Header } from './components/Header';
 import { ImageUploader } from './components/ImageUploader';
 import { ResultDisplay } from './components/ResultDisplay';
 import { Spinner } from './components/Spinner';
-import { analyzeCowImage } from './services/geminiService';
+import { analyzeCowImage, getErrorMessage, GeminiServiceError } from './services/geminiService';
+import { useConnectionStatus } from './services/connectionService';
 import type { CowAnalysisResult, HistoryEntry } from './types';
 import { ResetIcon, RocketIcon, SaveIcon, BackIcon } from './components/icons';
 import { HistoryList } from './components/HistoryList';
 import { HistoryDetail } from './components/HistoryDetail';
 import { Footer } from './components/Footer';
+import { ConnectionStatus } from './components/ConnectionStatus';
 
 const App: React.FC = () => {
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -23,6 +25,9 @@ const App: React.FC = () => {
     const [history, setHistory] = useState<HistoryEntry[]>([]);
     const [view, setView] = useState<'home' | 'result' | 'history' | 'historyDetail'>('home');
     const [selectedHistoryItemId, setSelectedHistoryItemId] = useState<string | null>(null);
+
+    // Connection status
+    const connectionStatus = useConnectionStatus();
 
     // Load history from localStorage on initial render
     useEffect(() => {
@@ -44,6 +49,35 @@ const App: React.FC = () => {
             console.error("Failed to save history to localStorage", e);
         }
     }, [history]);
+
+    // Service Worker registration
+    useEffect(() => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('✅ Service Worker registrado:', registration);
+                    
+                    // Verificar actualizaciones
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Nueva versión disponible
+                                    if (confirm('Hay una nueva versión disponible. ¿Deseas actualizar?')) {
+                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('❌ Error registrando Service Worker:', error);
+                });
+        }
+    }, []);
 
     const handleImageUpload = (file: File) => {
         setImageFile(file);
@@ -85,6 +119,11 @@ const App: React.FC = () => {
             return;
         }
 
+        if (!connectionStatus.isOnline) {
+            setError("📶 Sin conexión a internet. El análisis de IA requiere conexión.");
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         setAnalysisResult(null);
@@ -96,11 +135,16 @@ const App: React.FC = () => {
             setView('result');
         } catch (err) {
             console.error(err);
-            setError("Ocurrió un error al analizar la imagen. Por favor, inténtalo de nuevo.");
+            
+            if (err instanceof GeminiServiceError) {
+                setError(getErrorMessage(err));
+            } else {
+                setError("Ocurrió un error inesperado. Por favor, inténtalo de nuevo.");
+            }
         } finally {
             setIsLoading(false);
         }
-    }, [imageFile]);
+    }, [imageFile, connectionStatus.isOnline]);
 
     const handleSaveToHistory = () => {
         if (!analysisResult || !animalName.trim() || !imagePreviewUrl) return;
@@ -130,6 +174,7 @@ const App: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col">
+            <ConnectionStatus />
             <div className="flex-1 flex flex-col items-center p-4">
                 <div className="w-full max-w-md mx-auto">
                     <Header historyCount={history.length} onViewHistory={() => setView('history')} />
@@ -140,12 +185,20 @@ const App: React.FC = () => {
                                 {imageFile && !isLoading && (
                                     <button
                                         onClick={handleAnalyzeClick}
-                                        disabled={isLoading}
+                                        disabled={isLoading || !connectionStatus.isOnline}
                                         className="btn-primary w-full flex items-center justify-center gap-2"
                                     >
                                         <RocketIcon />
-                                        Calcular Peso
+                                        {!connectionStatus.isOnline ? 'Sin Conexión' : 'Calcular Peso'}
                                     </button>
+                                )}
+                                {!connectionStatus.isOnline && (
+                                    <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg">
+                                        <p className="text-sm">
+                                            <strong>Modo Offline:</strong> Puedes ver el historial y preparar fotos. 
+                                            El análisis de IA requiere conexión a internet.
+                                        </p>
+                                    </div>
                                 )}
                             </>
                         )}
