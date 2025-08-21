@@ -216,7 +216,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                                 muted
                                 className="w-full h-64 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-600"
                             />
-                            <CameraGuide isVisible={isCameraActive} />
+                            <CameraGuide isVisible={isCameraActive} videoRef={videoRef} />
                             {/* Solo mostrar overlay cuando la cámara no está activa */}
                             {!isCameraActive && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
