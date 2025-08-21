@@ -42,7 +42,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                     height: { ideal: 1080 }
                 }
             });
-            
+
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
                 streamRef.current = stream;
@@ -192,11 +192,10 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                             {/* Subir archivo */}
                             <div
                                 {...getRootProps()}
-                                className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-                                    isDragActive
+                                className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${isDragActive
                                         ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
                                         : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500'
-                                }`}
+                                    }`}
                             >
                                 <input {...getInputProps()} />
                                 <PhotoIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />

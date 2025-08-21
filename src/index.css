@@ -55,7 +55,8 @@ footer a:hover {
 }
 
 .camera-container video {
-    transform: scaleX(-1); /* Efecto espejo para selfie */
+    transform: scaleX(-1);
+    /* Efecto espejo para selfie */
 }
 
 .camera-container .camera-guide {
@@ -67,8 +68,15 @@ footer a:hover {
 
 /* Animación para la guía de cámara */
 @keyframes cameraPulse {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.4; }
+
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
 }
 
 .camera-guide .guide-frame {
