@@ -254,7 +254,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                                     onClick={() => setShowDistanceInstructions(true)}
                                     className="text-green-600 hover:text-green-700 text-xs underline"
                                 >
-                                    📏 ¿Cómo funciona la medición?
+                                    🐄 ¿Cómo funciona la detección?
                                 </button>
                             </div>
                         )}
