@@ -13,6 +13,7 @@ interface ImageUploaderProps {
 
 export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, previewUrl }) => {
     const [showGuide, setShowGuide] = useState(false);
+    const [showDistanceInstructions, setShowDistanceInstructions] = useState(false);
     const [showCamera, setShowCamera] = useState(false);
     const [isCameraActive, setIsCameraActive] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
