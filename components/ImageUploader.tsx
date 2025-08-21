@@ -235,7 +235,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                                         : 'bg-gray-400 text-gray-200 cursor-not-allowed'
                                 }`}
                             >
-                                📸 Capturar Foto
+                                {isCameraActive ? '📸 Capturar Foto' : '⏳ Cargando...'}
                             </button>
                             <button
                                 onClick={stopCamera}
