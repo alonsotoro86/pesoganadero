@@ -8,9 +8,9 @@
   "theme_color": "#16a34a",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/images/logo-toro-verde.png",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
       "src": "/icon-192.png",
