@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
                 <img
                     src="/images/logo-monarca.png"
                     alt="Monarca SQA Logo"
-                    className="h-6 w-auto opacity-80 hover:opacity-100 transition-opacity duration-200"
+                    className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity duration-200"
                 />
                 <a
                     href="https://monarca-sqa.com"
