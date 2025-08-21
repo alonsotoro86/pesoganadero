@@ -5,9 +5,9 @@ export const Footer: React.FC = () => {
         <footer className="mt-auto py-4 px-4 text-center text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-center gap-2 text-sm">
                 <span>Desarrollado por</span>
-                <a 
-                    href="https://monarca-sqa.com" 
-                    target="_blank" 
+                <a
+                    href="https://monarca-sqa.com"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="font-semibold text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors duration-200"
                 >
