@@ -246,8 +246,16 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                             </button>
                         </div>
                         {isCameraActive && (
-                            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                                💡 Posiciona el animal en el marco y haz clic en "Capturar Foto"
+                            <div className="text-center space-y-2">
+                                <div className="text-sm text-gray-600 dark:text-gray-400">
+                                    💡 Posiciona el animal en el marco y haz clic en "Capturar Foto"
+                                </div>
+                                <button
+                                    onClick={() => setShowDistanceInstructions(true)}
+                                    className="text-green-600 hover:text-green-700 text-xs underline"
+                                >
+                                    📏 ¿Cómo usar las líneas de distancia?
+                                </button>
                             </div>
                         )}
                     </div>
