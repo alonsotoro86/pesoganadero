@@ -14,7 +14,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                 {/* Header */}
                 <div className="bg-green-600 text-white p-4">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-xl font-bold">📏 Guía Rápida</h2>
+                        <h2 className="text-xl font-bold">📏 Distancia Óptima</h2>
                         <button
                             onClick={onClose}
                             className="text-white hover:text-gray-200 text-xl font-bold"
@@ -31,10 +31,10 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                         <div className="text-center">
                             <div className="text-4xl mb-3">📏</div>
                             <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
-                                ¿Cómo usar la línea verde?
+                                Línea Verde = 3-5 metros
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400 text-sm">
-                                Posiciona el animal para que <strong>toque la línea verde</strong> en la parte superior de la pantalla.
+                                Ajusta tu distancia hasta que el animal toque la línea verde en la pantalla.
                             </p>
                         </div>
 
@@ -42,10 +42,10 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                         <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
                             <div className="flex items-center gap-2 mb-2">
                                 <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-                                <span className="font-semibold text-green-700 dark:text-green-400">Distancia Óptima: 3-5 metros</span>
+                                <span className="font-semibold text-green-700 dark:text-green-400">3-5 metros = Análisis preciso</span>
                             </div>
                             <p className="text-sm text-green-600 dark:text-green-400">
-                                Esta distancia asegura el análisis más preciso del peso del animal.
+                                Esta distancia asegura los mejores resultados del análisis de peso.
                             </p>
                         </div>
 
