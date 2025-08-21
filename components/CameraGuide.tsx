@@ -40,7 +40,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
 
             let largestArea = 0;
             let bestAnimal: DetectedAnimal | null = null;
-            const step = 20; // Analizar cada 20 píxeles
+            const step = 15; // Analizar cada 15 píxeles para mejor precisión
 
             // Buscar el objeto más grande (probablemente el animal)
             for (let y = canvas.height * 0.1; y < canvas.height * 0.9; y += step) {
@@ -55,16 +55,16 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
                         (r < 60 && g < 60 && b < 60) ||  // Negro/Gris
                         (Math.abs(r - g) < 20 && Math.abs(g - b) < 20 && r < 120)) { // Gris uniforme
 
-                        // Calcular el área de este objeto potencial
-                        const area = 200 * 200; // Tamaño estimado del objeto
-
-                        if (area > largestArea) {
-                            largestArea = area;
+                        // Calcular el tamaño real del objeto detectado
+                        const objectSize = calculateObjectSize(data, x, y, canvas.width, canvas.height);
+                        
+                        if (objectSize.area > largestArea && objectSize.area > 1000) { // Mínimo tamaño para ser un animal
+                            largestArea = objectSize.area;
                             bestAnimal = {
-                                x,
-                                y,
-                                width: 200,
-                                height: 200,
+                                x: objectSize.x,
+                                y: objectSize.y,
+                                width: objectSize.width,
+                                height: objectSize.height,
                                 confidence: 0.7
                             };
                         }
@@ -92,15 +92,60 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
         animationRef.current = requestAnimationFrame(detectAnimal);
     };
 
+    // Calcular el tamaño real del objeto detectado
+    const calculateObjectSize = (data: Uint8ClampedArray, startX: number, startY: number, canvasWidth: number, canvasHeight: number) => {
+        let minX = startX, maxX = startX, minY = startY, maxY = startY;
+        const visited = new Set();
+        const queue = [{x: startX, y: startY}];
+        
+        while (queue.length > 0) {
+            const {x, y} = queue.shift()!;
+            const key = `${x},${y}`;
+            
+            if (visited.has(key) || x < 0 || x >= canvasWidth || y < 0 || y >= canvasHeight) continue;
+            visited.add(key);
+            
+            const index = (y * canvasWidth + x) * 4;
+            const r = data[index];
+            const g = data[index + 1];
+            const b = data[index + 2];
+            
+            // Verificar si es el mismo color
+            if ((r > 60 && g > 40 && b < 80) || // Marrón
+                (r < 60 && g < 60 && b < 60) ||  // Negro/Gris
+                (Math.abs(r - g) < 20 && Math.abs(g - b) < 20 && r < 120)) { // Gris uniforme
+                
+                minX = Math.min(minX, x);
+                maxX = Math.max(maxX, x);
+                minY = Math.min(minY, y);
+                maxY = Math.max(maxY, y);
+                
+                // Agregar vecinos a la cola
+                queue.push({x: x + 1, y});
+                queue.push({x: x - 1, y});
+                queue.push({x, y: y + 1});
+                queue.push({x, y: y - 1});
+            }
+        }
+        
+        return {
+            x: minX,
+            y: minY,
+            width: maxX - minX,
+            height: maxY - minY,
+            area: (maxX - minX) * (maxY - minY)
+        };
+    };
+
     // Calcular distancia aproximada basada en el tamaño del animal
     const calculateDistance = (animal: DetectedAnimal, canvasWidth: number, canvasHeight: number): number => {
-        // Tamaño de referencia para un animal a 3 metros
-        const referenceSize = Math.min(canvasWidth, canvasHeight) * 0.25;
+        // Tamaño de referencia para un animal a 3 metros (ajustado para ser más realista)
+        const referenceSize = Math.min(canvasWidth, canvasHeight) * 0.15; // 15% del frame
         const animalSize = Math.max(animal.width, animal.height);
-
+        
         // Fórmula inversa: distancia = tamaño_referencia * distancia_referencia / tamaño_animal
         const estimatedDistance = (referenceSize * 3) / animalSize;
-
+        
         return Math.max(1, Math.min(10, estimatedDistance)); // Limitar entre 1-10 metros
     };
 
