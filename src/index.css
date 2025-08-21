@@ -48,6 +48,33 @@ footer a:hover {
     text-decoration: underline;
 }
 
+/* Estilos para la cámara */
+.camera-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.camera-container video {
+    transform: scaleX(-1); /* Efecto espejo para selfie */
+}
+
+.camera-container .camera-guide {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Animación para la guía de cámara */
+@keyframes cameraPulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+}
+
+.camera-guide .guide-frame {
+    animation: cameraPulse 2s ease-in-out infinite;
+}
+
 /* Estilos para botones */
 button:disabled {
     cursor: not-allowed;
