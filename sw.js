@@ -46,6 +46,11 @@ const APP_URLS = [
 
 // Estrategia de cache: Cache First para archivos estáticos
 const cacheFirst = async (request) => {
+  // No cachear solicitudes HEAD, PUT, DELETE, etc.
+  if (request.method !== 'GET') {
+    return fetch(request);
+  }
+
   const cache = await caches.open(STATIC_CACHE);
   const cachedResponse = await cache.match(request);
 
@@ -70,6 +75,11 @@ const cacheFirst = async (request) => {
 
 // Estrategia de cache: Network First para archivos de la app
 const networkFirst = async (request) => {
+  // No cachear solicitudes HEAD, PUT, DELETE, etc.
+  if (request.method !== 'GET') {
+    return fetch(request);
+  }
+
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
