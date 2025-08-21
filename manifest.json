@@ -1,21 +1,53 @@
 {
-  "name": "Peso Ganadero AI",
+  "name": "Peso Ganadero AI - Análisis Inteligente de Ganado",
   "short_name": "Peso Ganadero",
-  "description": "Aplicación de inteligencia artificial para calcular el peso de ganado mediante análisis de imágenes",
+  "description": "Aplicación de inteligencia artificial para calcular el peso de ganado mediante análisis de imágenes. Funciona offline para consultar historial.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#16a34a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "es",
+  "categories": ["productivity", "utilities", "agriculture"],
   "icons": [
     {
       "src": "/images/logo-toro-verde.png",
-      "sizes": "any",
-      "type": "image/png"
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/images/logo-monarca.png",
-      "sizes": "any",
-      "type": "image/png"
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nuevo Análisis",
+      "short_name": "Analizar",
+      "description": "Analizar una nueva foto de ganado",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/images/logo-toro-verde.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Ver Historial",
+      "short_name": "Historial",
+      "description": "Ver análisis previos",
+      "url": "/?view=history",
+      "icons": [
+        {
+          "src": "/images/logo-monarca.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 }
