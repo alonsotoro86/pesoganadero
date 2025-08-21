@@ -36,7 +36,7 @@ export class GeminiServiceError extends Error {
 export const analyzeCowImage = async (base64Image: string, mimeType: string): Promise<CowAnalysisResult> => {
     // Verificar conexión antes de intentar la llamada
     const connectionStatus = connectionService.getStatus();
-    
+
     if (!connectionStatus.isOnline) {
         throw new GeminiServiceError(
             "Sin conexión a internet. El análisis de IA requiere conexión a internet para funcionar.",
@@ -63,7 +63,7 @@ export const analyzeCowImage = async (base64Image: string, mimeType: string): Pr
     const ai = new GoogleGenAI({ apiKey: API_KEY });
 
     const prompt = "Analiza la imagen de esta vaca. Estima su peso en kilogramos, identifica su raza probable y proporciona un breve comentario sobre su condición corporal. Responde únicamente en el formato JSON especificado.";
-    
+
     try {
         const imagePart = {
             inlineData: {
@@ -75,7 +75,7 @@ export const analyzeCowImage = async (base64Image: string, mimeType: string): Pr
         const textPart = {
             text: prompt,
         };
-        
+
         const response = await ai.models.generateContent({
             model: model,
             contents: { parts: [imagePart, textPart] },
@@ -98,7 +98,7 @@ export const analyzeCowImage = async (base64Image: string, mimeType: string): Pr
                 'invalid_response'
             );
         }
-        
+
         if (!result.peso_kg || !result.raza || !result.comentarios) {
             throw new GeminiServiceError(
                 "La respuesta de la IA no tiene el formato esperado. Intenta con otra imagen.",
@@ -113,12 +113,12 @@ export const analyzeCowImage = async (base64Image: string, mimeType: string): Pr
                 'invalid_response'
             );
         }
-        
+
         return result;
 
     } catch (error) {
         console.error("Error calling Gemini API:", error);
-        
+
         // Manejar errores específicos
         if (error instanceof GeminiServiceError) {
             throw error;

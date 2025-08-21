@@ -43,11 +43,11 @@ const APP_URLS = [
 const cacheFirst = async (request) => {
   const cache = await caches.open(STATIC_CACHE);
   const cachedResponse = await cache.match(request);
-  
+
   if (cachedResponse) {
     return cachedResponse;
   }
-  
+
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
@@ -139,22 +139,22 @@ self.addEventListener('fetch', event => {
   }
 
   // Archivos estáticos (imágenes, CSS, etc.)
-  if (STATIC_URLS.includes(url.pathname) || 
-      url.pathname.startsWith('/images/') ||
-      url.pathname.endsWith('.css') ||
-      url.pathname.endsWith('.png') ||
-      url.pathname.endsWith('.jpg') ||
-      url.pathname.endsWith('.jpeg') ||
-      url.pathname.endsWith('.svg')) {
+  if (STATIC_URLS.includes(url.pathname) ||
+    url.pathname.startsWith('/images/') ||
+    url.pathname.endsWith('.css') ||
+    url.pathname.endsWith('.png') ||
+    url.pathname.endsWith('.jpg') ||
+    url.pathname.endsWith('.jpeg') ||
+    url.pathname.endsWith('.svg')) {
     event.respondWith(cacheFirst(request));
     return;
   }
 
   // Archivos de la aplicación (React, TypeScript)
   if (APP_URLS.includes(url.pathname) ||
-      url.pathname.endsWith('.tsx') ||
-      url.pathname.endsWith('.ts') ||
-      url.pathname.endsWith('.js')) {
+    url.pathname.endsWith('.tsx') ||
+    url.pathname.endsWith('.ts') ||
+    url.pathname.endsWith('.js')) {
     event.respondWith(networkFirst(request));
     return;
   }
@@ -199,7 +199,7 @@ self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  
+
   if (event.data && event.data.type === 'GET_VERSION') {
     event.ports[0].postMessage({ version: CACHE_NAME });
   }

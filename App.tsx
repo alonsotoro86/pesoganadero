@@ -56,7 +56,7 @@ const App: React.FC = () => {
             navigator.serviceWorker.register('/sw.js')
                 .then(registration => {
                     console.log('✅ Service Worker registrado:', registration);
-                    
+
                     // Verificar actualizaciones
                     registration.addEventListener('updatefound', () => {
                         const newWorker = registration.installing;
@@ -135,7 +135,7 @@ const App: React.FC = () => {
             setView('result');
         } catch (err) {
             console.error(err);
-            
+
             if (err instanceof GeminiServiceError) {
                 setError(getErrorMessage(err));
             } else {
@@ -195,7 +195,7 @@ const App: React.FC = () => {
                                 {!connectionStatus.isOnline && (
                                     <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg">
                                         <p className="text-sm">
-                                            <strong>Modo Offline:</strong> Puedes ver el historial y preparar fotos. 
+                                            <strong>Modo Offline:</strong> Puedes ver el historial y preparar fotos.
                                             El análisis de IA requiere conexión a internet.
                                         </p>
                                     </div>

@@ -9,7 +9,11 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "es",
-  "categories": ["productivity", "utilities", "agriculture"],
+  "categories": [
+    "productivity",
+    "utilities",
+    "agriculture"
+  ],
   "icons": [
     {
       "src": "/images/logo-toro-verde.png",
