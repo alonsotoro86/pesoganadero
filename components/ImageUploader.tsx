@@ -35,6 +35,10 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
 
     const startCamera = async () => {
         try {
+            console.log('Iniciando cámara...');
+            setShowCamera(true);
+            setIsCameraActive(false);
+
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: {
                     facingMode: 'environment', // Usar cámara trasera si está disponible
@@ -46,12 +50,43 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
                 streamRef.current = stream;
-                setIsCameraActive(true);
-                setShowCamera(true);
+                
+                // Esperar a que el video esté listo
+                videoRef.current.onloadedmetadata = () => {
+                    console.log('Video metadata cargado');
+                    videoRef.current?.play().then(() => {
+                        console.log('Video iniciado correctamente');
+                        setIsCameraActive(true);
+                    }).catch((error) => {
+                        console.error('Error al reproducir video:', error);
+                        alert('Error al iniciar la cámara. Intenta nuevamente.');
+                        stopCamera();
+                    });
+                };
+
+                videoRef.current.onerror = (error) => {
+                    console.error('Error en el video:', error);
+                    alert('Error en la cámara. Intenta nuevamente.');
+                    stopCamera();
+                };
             }
         } catch (error) {
             console.error('Error al acceder a la cámara:', error);
-            alert('No se pudo acceder a la cámara. Verifica los permisos.');
+            setShowCamera(false);
+            
+            if (error instanceof Error) {
+                if (error.name === 'NotAllowedError') {
+                    alert('Permiso denegado para acceder a la cámara. Verifica los permisos del navegador.');
+                } else if (error.name === 'NotFoundError') {
+                    alert('No se encontró ninguna cámara disponible.');
+                } else if (error.name === 'NotReadableError') {
+                    alert('La cámara está siendo usada por otra aplicación.');
+                } else {
+                    alert(`Error al acceder a la cámara: ${error.message}`);
+                }
+            } else {
+                alert('Error desconocido al acceder a la cámara.');
+            }
         }
     };
 
