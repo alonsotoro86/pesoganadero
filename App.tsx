@@ -9,6 +9,7 @@ import type { CowAnalysisResult, HistoryEntry } from './types';
 import { ResetIcon, RocketIcon, SaveIcon, BackIcon } from './components/icons';
 import { HistoryList } from './components/HistoryList';
 import { HistoryDetail } from './components/HistoryDetail';
+import { Footer } from './components/Footer';
 
 const App: React.FC = () => {
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -128,89 +129,92 @@ const App: React.FC = () => {
     const selectedHistoryItem = history.find(item => item.id === selectedHistoryItemId);
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col items-center p-4">
-            <div className="w-full max-w-md mx-auto">
-                <Header historyCount={history.length} onViewHistory={() => setView('history')} />
-                <main className="mt-8 space-y-6">
-                    {view === 'home' && (
-                        <>
-                            <ImageUploader onImageUpload={handleImageUpload} previewUrl={imagePreviewUrl} />
-                            {imageFile && !isLoading && (
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col">
+            <div className="flex-1 flex flex-col items-center p-4">
+                <div className="w-full max-w-md mx-auto">
+                    <Header historyCount={history.length} onViewHistory={() => setView('history')} />
+                    <main className="mt-8 space-y-6">
+                        {view === 'home' && (
+                            <>
+                                <ImageUploader onImageUpload={handleImageUpload} previewUrl={imagePreviewUrl} />
+                                {imageFile && !isLoading && (
+                                    <button
+                                        onClick={handleAnalyzeClick}
+                                        disabled={isLoading}
+                                        className="btn-primary w-full flex items-center justify-center gap-2"
+                                    >
+                                        <RocketIcon />
+                                        Calcular Peso
+                                    </button>
+                                )}
+                            </>
+                        )}
+
+                        {isLoading && <Spinner />}
+
+                        {error && !isLoading && (
+                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+                                <strong className="font-bold">Error: </strong>
+                                <span className="block sm:inline">{error}</span>
+                            </div>
+                        )}
+
+                        {view === 'result' && analysisResult && (
+                            <div className="animate-fade-in space-y-4">
+                                <ResultDisplay result={analysisResult} imageUrl={imagePreviewUrl!} />
+                                <div className="card space-y-3">
+                                    <h3 className="font-bold text-lg text-center mb-2">Guardar en el Historial</h3>
+                                    <input
+                                        type="text"
+                                        value={animalName}
+                                        onChange={(e) => setAnimalName(e.target.value)}
+                                        placeholder="Nombre o N° del animal (ej: 015, Manchitas)"
+                                        className="input-field"
+                                        aria-label="Nombre o número del animal"
+                                    />
+                                    <button
+                                        onClick={handleSaveToHistory}
+                                        disabled={!animalName.trim()}
+                                        className="btn-secondary w-full flex items-center justify-center gap-2"
+                                    >
+                                        <SaveIcon />
+                                        Guardar
+                                    </button>
+                                </div>
                                 <button
-                                    onClick={handleAnalyzeClick}
-                                    disabled={isLoading}
-                                    className="btn-primary w-full flex items-center justify-center gap-2"
+                                    onClick={handleReset}
+                                    className="btn-gray w-full flex items-center justify-center gap-2"
                                 >
-                                    <RocketIcon />
-                                    Calcular Peso
-                                </button>
-                            )}
-                        </>
-                    )}
-
-                    {isLoading && <Spinner />}
-
-                    {error && !isLoading && (
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
-                            <strong className="font-bold">Error: </strong>
-                            <span className="block sm:inline">{error}</span>
-                        </div>
-                    )}
-
-                    {view === 'result' && analysisResult && (
-                        <div className="animate-fade-in space-y-4">
-                            <ResultDisplay result={analysisResult} imageUrl={imagePreviewUrl!} />
-                            <div className="card space-y-3">
-                                <h3 className="font-bold text-lg text-center mb-2">Guardar en el Historial</h3>
-                                <input
-                                    type="text"
-                                    value={animalName}
-                                    onChange={(e) => setAnimalName(e.target.value)}
-                                    placeholder="Nombre o N° del animal (ej: 015, Manchitas)"
-                                    className="input-field"
-                                    aria-label="Nombre o número del animal"
-                                />
-                                <button
-                                    onClick={handleSaveToHistory}
-                                    disabled={!animalName.trim()}
-                                    className="btn-secondary w-full flex items-center justify-center gap-2"
-                                >
-                                    <SaveIcon />
-                                    Guardar
+                                    <ResetIcon />
+                                    Analizar otra foto (No Guardar)
                                 </button>
                             </div>
-                            <button
-                                onClick={handleReset}
-                                className="btn-gray w-full flex items-center justify-center gap-2"
-                            >
-                                <ResetIcon />
-                                Analizar otra foto (No Guardar)
-                            </button>
-                        </div>
-                    )}
+                        )}
 
-                    {view === 'history' && (
-                        <>
-                            <HistoryList
-                                history={history}
-                                onViewItem={handleViewHistoryItem}
-                                onDeleteItem={handleDeleteFromHistory}
-                            />
-                            <button
-                                onClick={handleReset}
-                                className="btn-primary w-full flex items-center justify-center gap-2 mt-4"
-                            >
-                                <BackIcon />
-                                Volver al Inicio
-                            </button>
-                        </>
-                    )}
+                        {view === 'history' && (
+                            <>
+                                <HistoryList
+                                    history={history}
+                                    onViewItem={handleViewHistoryItem}
+                                    onDeleteItem={handleDeleteFromHistory}
+                                />
+                                <button
+                                    onClick={handleReset}
+                                    className="btn-primary w-full flex items-center justify-center gap-2 mt-4"
+                                >
+                                    <BackIcon />
+                                    Volver al Inicio
+                                </button>
+                            </>
+                        )}
 
-                    {view === 'historyDetail' && selectedHistoryItem && (
-                        <HistoryDetail item={selectedHistoryItem} onBack={() => setView('history')} />
-                    )}
-                </main>
+                        {view === 'historyDetail' && selectedHistoryItem && (
+                            <HistoryDetail item={selectedHistoryItem} onBack={() => setView('history')} />
+                        )}
+                    </main>
+                </div>
             </div>
+            <Footer />
         </div>
     );
 };
