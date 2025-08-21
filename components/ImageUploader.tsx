@@ -1,5 +1,5 @@
 
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { PhotoIcon, ArrowUpTrayIcon, CameraIcon } from './icons';
 import { PhotoGuide } from './PhotoGuide';
@@ -155,6 +155,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
             onImageUpload(file);
         }
     };
+
+    useEffect(() => {
+        return () => {
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach(track => track.stop());
+                streamRef.current = null;
+            }
+        };
+    }, []);
 
     return (
         <>
