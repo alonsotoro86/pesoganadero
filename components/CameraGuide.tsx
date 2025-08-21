@@ -76,9 +76,9 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
             if (model && !useFallback) {
                 // Usar TensorFlow.js si está disponible
                 const predictions = await model.detect(video);
-                
+
                 // Filtrar objetos relevantes (personas, animales, etc.)
-                const relevantObjects = predictions.filter(pred => 
+                const relevantObjects = predictions.filter(pred =>
                     ['person', 'dog', 'cat', 'horse', 'cow', 'sheep', 'bear', 'zebra', 'giraffe'].includes(pred.class)
                 );
 
@@ -96,7 +96,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
 
                 // Calcular distancia basada en el objeto más grande y confiable
                 if (objects.length > 0) {
-                    const bestObject = objects.reduce((best, current) => 
+                    const bestObject = objects.reduce((best, current) =>
                         (current.confidence * current.width * current.height) > (best.confidence * best.width * best.height) ? current : best
                     );
 
@@ -167,7 +167,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
         setDetectedObjects(groupedObjects);
 
         if (groupedObjects.length > 0) {
-            const largestObject = groupedObjects.reduce((largest, current) => 
+            const largestObject = groupedObjects.reduce((largest, current) =>
                 (current.width * current.height) > (largest.width * largest.height) ? current : largest
             );
             const distance = calculateDistance(largestObject, canvas.width, canvas.height);
