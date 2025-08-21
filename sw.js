@@ -31,6 +31,7 @@ const APP_URLS = [
   '/services/geminiService.ts',
   '/components/Header.tsx',
   '/components/ImageUploader.tsx',
+  '/components/PhotoGuide.tsx',
   '/components/ResultDisplay.tsx',
   '/components/Spinner.tsx',
   '/components/icons/index.tsx',
