@@ -14,7 +14,7 @@ const URLS_TO_CACHE = [
   '/components/icons/index.tsx',
   '/components/HistoryList.tsx',
   '/components/HistoryDetail.tsx',
-  '/logo.png',
+  '/icon.svg',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
 ];
@@ -38,7 +38,7 @@ self.addEventListener('fetch', event => {
         }
         return fetch(event.request);
       }
-    )
+      )
   );
 });
 

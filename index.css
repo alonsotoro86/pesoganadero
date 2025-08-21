@@ -1,0 +1,77 @@
+/* Estilos base para la aplicación Peso Ganadero AI */
+
+/* Animación de fade-in para resultados */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+}
+
+/* Estilos para el logo de la vaca */
+.cow-icon {
+    color: #16a34a;
+    transition: color 0.2s ease;
+}
+
+.cow-icon:hover {
+    color: #15803d;
+}
+
+/* Estilos para el header */
+header {
+    position: relative;
+}
+
+/* Estilos para botones */
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Estilos para inputs */
+input:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+/* Estilos para el spinner */
+.spinner {
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #16a34a;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .cow-icon {
+        color: #22c55e;
+    }
+
+    .cow-icon:hover {
+        color: #16a34a;
+    }
+}
