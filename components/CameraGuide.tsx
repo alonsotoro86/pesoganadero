@@ -8,9 +8,9 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible }) => {
     if (!isVisible) return null;
 
     return (
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none camera-guide">
             {/* Marco de guía */}
-            <div className="absolute inset-4 border-2 border-white border-dashed rounded-lg opacity-80"></div>
+            <div className="absolute inset-4 border-2 border-white border-dashed rounded-lg opacity-80 guide-frame"></div>
             
             {/* Indicadores de esquina */}
             <div className="absolute top-4 left-4 w-8 h-8 border-l-4 border-t-4 border-green-400 rounded-tl-lg"></div>
