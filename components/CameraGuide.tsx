@@ -10,7 +10,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible }) => {
     return (
         <div className="absolute inset-0 pointer-events-none camera-guide">
             {/* Líneas de distancia - Estilo simple y elegante */}
-            
+
             {/* Línea de distancia óptima (3-5 metros) - Verde */}
             <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center gap-2">
