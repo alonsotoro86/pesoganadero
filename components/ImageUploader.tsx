@@ -156,6 +156,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
         }
     };
 
+    // Limpiar la cámara cuando el componente se desmonte
     useEffect(() => {
         return () => {
             if (streamRef.current) {
