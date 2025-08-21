@@ -1,10 +1,10 @@
 {
-  "name": "PesoGanado AI",
-  "short_name": "PesoGanado",
-  "description": "Calcula el peso de tu ganado con una foto usando IA.",
+  "name": "Peso Ganadero AI",
+  "short_name": "Peso Ganadero",
+  "description": "Aplicación de inteligencia artificial para calcular el peso de ganado mediante análisis de imágenes",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f3f4f6",
+  "background_color": "#ffffff",
   "theme_color": "#16a34a",
   "icons": [
     {
@@ -13,14 +13,9 @@
       "type": "image/png"
     },
     {
-      "src": "/icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "/icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "/images/logo-monarca.png",
+      "sizes": "any",
+      "type": "image/png"
     }
   ]
 }
