@@ -47,7 +47,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                                     <span className="text-sm text-green-600 dark:text-green-400 ml-2">Óptimo</span>
                                 </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                                 <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
                                 <div>
@@ -55,7 +55,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                                     <span className="text-sm text-yellow-600 dark:text-yellow-400 ml-2">Aceptable</span>
                                 </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
                                 <div className="w-4 h-4 bg-red-500 rounded-full"></div>
                                 <div>
