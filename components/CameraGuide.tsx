@@ -10,7 +10,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible }) => {
     return (
         <div className="absolute inset-0 pointer-events-none camera-guide">
             {/* Recuadros de distancia - Estilo cámara de reversa */}
-            
+
             {/* Zona muy cerca (menos de 2m) - Rojo */}
             <div className="absolute top-1/8 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center gap-2">
