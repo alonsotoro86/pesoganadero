@@ -14,7 +14,7 @@ const URLS_TO_CACHE = [
   '/components/icons/index.tsx',
   '/components/HistoryList.tsx',
   '/components/HistoryDetail.tsx',
-  '/icon.svg',
+  '/images/logo-toro-verde.png',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
 ];
