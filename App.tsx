@@ -115,7 +115,7 @@ const App: React.FC = () => {
         setHistory(prevHistory => [newEntry, ...prevHistory]);
         handleReset();
     };
-    
+
     const handleDeleteFromHistory = (id: string) => {
         setHistory(prevHistory => prevHistory.filter(item => item.id !== id));
     };
@@ -124,9 +124,9 @@ const App: React.FC = () => {
         setSelectedHistoryItemId(id);
         setView('historyDetail');
     };
-    
+
     const selectedHistoryItem = history.find(item => item.id === selectedHistoryItemId);
-    
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col items-center p-4">
             <div className="w-full max-w-md mx-auto">
@@ -150,15 +150,15 @@ const App: React.FC = () => {
 
                     {isLoading && <Spinner />}
 
-                    {error && !isLoading &&(
+                    {error && !isLoading && (
                         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
                             <strong className="font-bold">Error: </strong>
                             <span className="block sm:inline">{error}</span>
                         </div>
                     )}
-                    
+
                     {view === 'result' && analysisResult && (
-                       <div className="animate-fade-in space-y-4">
+                        <div className="animate-fade-in space-y-4">
                             <ResultDisplay result={analysisResult} imageUrl={imagePreviewUrl!} />
                             <div className="card space-y-3">
                                 <h3 className="font-bold text-lg text-center mb-2">Guardar en el Historial</h3>
@@ -179,24 +179,24 @@ const App: React.FC = () => {
                                     Guardar
                                 </button>
                             </div>
-                             <button
+                            <button
                                 onClick={handleReset}
                                 className="btn-gray w-full flex items-center justify-center gap-2"
                             >
                                 <ResetIcon />
                                 Analizar otra foto (No Guardar)
                             </button>
-                       </div>
+                        </div>
                     )}
-                    
+
                     {view === 'history' && (
                         <>
-                            <HistoryList 
-                                history={history} 
-                                onViewItem={handleViewHistoryItem} 
-                                onDeleteItem={handleDeleteFromHistory} 
+                            <HistoryList
+                                history={history}
+                                onViewItem={handleViewHistoryItem}
+                                onDeleteItem={handleDeleteFromHistory}
                             />
-                             <button
+                            <button
                                 onClick={handleReset}
                                 className="btn-primary w-full flex items-center justify-center gap-2 mt-4"
                             >
@@ -205,7 +205,7 @@ const App: React.FC = () => {
                             </button>
                         </>
                     )}
-                    
+
                     {view === 'historyDetail' && selectedHistoryItem && (
                         <HistoryDetail item={selectedHistoryItem} onBack={() => setView('history')} />
                     )}
