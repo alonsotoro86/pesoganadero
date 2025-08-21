@@ -126,7 +126,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
 
         const video = videoRef.current;
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
         if (!ctx) return;
 
@@ -167,7 +167,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
         setDetectedObjects(groupedObjects);
 
         if (groupedObjects.length > 0) {
-            const largestObject = groupedObjects.reduce((largest, current) =>
+            const largestObject = groupedObjects.reduce((largest, current) => 
                 (current.width * current.height) > (largest.width * largest.height) ? current : largest
             );
             const distance = calculateDistance(largestObject, canvas.width, canvas.height);
