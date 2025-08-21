@@ -147,6 +147,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                                 muted
                                 className="w-full h-64 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-600"
                             />
+                            <CameraGuide isVisible={isCameraActive} />
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="bg-black bg-opacity-50 text-white px-4 py-2 rounded-lg">
                                     {isCameraActive ? 'Cámara activa' : 'Iniciando cámara...'}
