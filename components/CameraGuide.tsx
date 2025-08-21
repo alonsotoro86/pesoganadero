@@ -54,10 +54,10 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
                     if ((r > 60 && g > 40 && b < 80) || // Marrón
                         (r < 60 && g < 60 && b < 60) ||  // Negro/Gris
                         (Math.abs(r - g) < 20 && Math.abs(g - b) < 20 && r < 120)) { // Gris uniforme
-                        
+
                         // Calcular el área de este objeto potencial
                         const area = 200 * 200; // Tamaño estimado del objeto
-                        
+
                         if (area > largestArea) {
                             largestArea = area;
                             bestAnimal = {
@@ -97,10 +97,10 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
         // Tamaño de referencia para un animal a 3 metros
         const referenceSize = Math.min(canvasWidth, canvasHeight) * 0.25;
         const animalSize = Math.max(animal.width, animal.height);
-        
+
         // Fórmula inversa: distancia = tamaño_referencia * distancia_referencia / tamaño_animal
         const estimatedDistance = (referenceSize * 3) / animalSize;
-        
+
         return Math.max(1, Math.min(10, estimatedDistance)); // Limitar entre 1-10 metros
     };
 
@@ -144,12 +144,12 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
     return (
         <div className="absolute inset-0 pointer-events-none camera-guide">
             {/* Canvas oculto para análisis */}
-            <canvas 
-                ref={canvasRef} 
+            <canvas
+                ref={canvasRef}
                 className="hidden"
                 style={{ position: 'absolute', top: '-9999px' }}
             />
-            
+
             {/* Línea de distancia interactiva */}
             <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center gap-2">
