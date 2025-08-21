@@ -182,12 +182,6 @@ const App: React.FC = () => {
                         {view === 'home' && (
                             <>
                                 <ImageUploader onImageUpload={handleImageUpload} previewUrl={imagePreviewUrl} />
-
-                                {/* Temporary camera test */}
-                                <div className="mt-4">
-                                    <CameraTest />
-                                </div>
-
                                 {imageFile && !isLoading && (
                                     <button
                                         onClick={handleAnalyzeClick}
