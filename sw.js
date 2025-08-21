@@ -1,22 +1,14 @@
 
-const CACHE_NAME = 'pesoganado-ai-cache-v1';
+const CACHE_NAME = 'peso-ganadero-v1';
 const URLS_TO_CACHE = [
   '/',
   '/index.html',
   '/index.tsx',
   '/App.tsx',
-  '/types.ts',
-  '/services/geminiService.ts',
-  '/components/Header.tsx',
-  '/components/ImageUploader.tsx',
-  '/components/ResultDisplay.tsx',
-  '/components/Spinner.tsx',
-  '/components/icons/index.tsx',
-  '/components/HistoryList.tsx',
-  '/components/HistoryDetail.tsx',
+  '/src/index.css',
   '/images/logo-toro-verde.png',
-  '/manifest.json',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+  '/images/logo-monarca.png',
+  '/manifest.json'
 ];
 
 self.addEventListener('install', event => {
