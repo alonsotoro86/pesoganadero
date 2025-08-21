@@ -338,6 +338,12 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
             {showGuide && (
                 <PhotoGuide onClose={() => setShowGuide(false)} />
             )}
+            {showDistanceInstructions && (
+                <DistanceInstructions 
+                    isVisible={showDistanceInstructions} 
+                    onClose={() => setShowDistanceInstructions(false)} 
+                />
+            )}
         </>
     );
 };
