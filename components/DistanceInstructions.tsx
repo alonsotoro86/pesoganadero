@@ -14,7 +14,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                 {/* Header */}
                 <div className="bg-green-600 text-white p-4">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-xl font-bold">📏 Medición Simple</h2>
+                        <h2 className="text-xl font-bold">🐄 Detección de Animal</h2>
                         <button
                             onClick={onClose}
                             className="text-white hover:text-gray-200 text-xl font-bold"
@@ -29,12 +29,12 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                     <div className="space-y-4">
                         {/* Instrucción simple */}
                         <div className="text-center">
-                            <div className="text-4xl mb-3">📏</div>
+                            <div className="text-4xl mb-3">🐄</div>
                             <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
-                                Detección Automática Simple
+                                Detección Automática del Animal
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400 text-sm">
-                                La aplicación detecta automáticamente objetos grandes y mide la distancia en tiempo real.
+                                La aplicación detecta automáticamente el animal más grande en la imagen y mide la distancia en tiempo real.
                             </p>
                         </div>
 
@@ -49,7 +49,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                                     <span className="text-sm text-green-600 dark:text-green-400 ml-2">¡Perfecto! Toma la foto</span>
                                 </div>
                             </div>
-
+                            
                             <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                                 <div className="w-8 h-6 bg-yellow-500 rounded-sm flex items-center justify-center">
                                     <span className="text-white text-xs font-bold">⚠️</span>
@@ -59,7 +59,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                                     <span className="text-sm text-yellow-600 dark:text-yellow-400 ml-2">Ajusta la distancia</span>
                                 </div>
                             </div>
-
+                            
                             <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
                                 <div className="w-8 h-6 bg-red-500 rounded-sm flex items-center justify-center">
                                     <span className="text-white text-xs font-bold">❌</span>
@@ -75,7 +75,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                         <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
                             <h4 className="font-semibold text-blue-700 dark:text-blue-400 mb-2">✨ Funcionalidades:</h4>
                             <ul className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
-                                <li>• <strong>Detección automática</strong> de objetos grandes</li>
+                                <li>• <strong>Detección automática</strong> del animal principal</li>
                                 <li>• <strong>Medición en tiempo real</strong> de la distancia</li>
                                 <li>• <strong>Indicadores visuales</strong> con colores</li>
                                 <li>• <strong>Instrucciones dinámicas</strong> para ajustar</li>
@@ -85,7 +85,7 @@ export const DistanceInstructions: React.FC<DistanceInstructionsProps> = ({ isVi
                         {/* Consejo rápido */}
                         <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
                             <p className="text-sm text-purple-700 dark:text-purple-400">
-                                💡 <strong>Tip:</strong> La línea cambia de color automáticamente. Espera a que sea verde para obtener el mejor resultado.
+                                💡 <strong>Tip:</strong> La aplicación detecta automáticamente el animal más grande. Asegúrate de que sea el único animal visible para mejores resultados.
                             </p>
                         </div>
                     </div>
