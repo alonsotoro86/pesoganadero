@@ -34,7 +34,6 @@ const APP_URLS = [
   '/components/ImageUploader.tsx',
   '/components/PhotoGuide.tsx',
   '/components/CameraGuide.tsx',
-  '/components/CameraTest.tsx',
   '/components/ResultDisplay.tsx',
   '/components/Spinner.tsx',
   '/components/icons/index.tsx',
