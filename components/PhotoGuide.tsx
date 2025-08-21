@@ -115,11 +115,10 @@ export const PhotoGuide: React.FC<PhotoGuideProps> = ({ onClose }) => {
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
-                            className={`flex-1 py-3 px-4 text-sm font-medium transition-colors ${
-                                activeTab === tab.id
+                            className={`flex-1 py-3 px-4 text-sm font-medium transition-colors ${activeTab === tab.id
                                     ? 'text-green-600 border-b-2 border-green-600 bg-green-50 dark:bg-green-900/20'
                                     : 'text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
-                            }`}
+                                }`}
                         >
                             <span className="block text-lg mb-1">{tab.icon}</span>
                             {tab.label}
