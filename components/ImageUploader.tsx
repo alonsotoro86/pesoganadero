@@ -254,7 +254,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                                     onClick={() => setShowDistanceInstructions(true)}
                                     className="text-green-600 hover:text-green-700 text-xs underline"
                                 >
-                                    📏 ¿Qué son las líneas de distancia?
+                                    📏 ¿Qué son los recuadros de distancia?
                                 </button>
                             </div>
                         )}
