@@ -21,20 +21,33 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
     const [detectedObjects, setDetectedObjects] = useState<DetectedObject[]>([]);
     const [model, setModel] = useState<cocoSsd.ObjectDetection | null>(null);
     const [isModelLoading, setIsModelLoading] = useState(false);
+    const [useFallback, setUseFallback] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationRef = useRef<number>();
 
-    // Cargar el modelo de TensorFlow.js
+    // Inicializar TensorFlow.js y cargar el modelo
     useEffect(() => {
         const loadModel = async () => {
             try {
                 setIsModelLoading(true);
+                console.log('Inicializando TensorFlow.js...');
+                
+                // Inicializar TensorFlow.js con backend webgl
+                await tf.ready();
+                console.log('TensorFlow.js inicializado');
+                
+                // Intentar cargar el modelo
                 console.log('Cargando modelo de detección...');
                 const loadedModel = await cocoSsd.load();
                 setModel(loadedModel);
+                setUseFallback(false);
                 console.log('Modelo cargado exitosamente');
+                
             } catch (error) {
                 console.error('Error cargando el modelo:', error);
+                console.log('Usando detección simple como fallback...');
+                setUseFallback(true);
+                setModel(null);
             } finally {
                 setIsModelLoading(false);
             }
@@ -47,7 +60,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
 
     // Función para detectar objetos usando TensorFlow.js
     const detectObjects = async () => {
-        if (!videoRef.current || !canvasRef.current || !model) return;
+        if (!videoRef.current || !canvasRef.current) return;
 
         const video = videoRef.current;
         const canvas = canvasRef.current;
@@ -60,36 +73,41 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
 
-            // Detectar objetos usando el modelo
-            const predictions = await model.detect(video);
-
-            // Filtrar objetos relevantes (personas, animales, etc.)
-            const relevantObjects = predictions.filter(pred =>
-                ['person', 'dog', 'cat', 'horse', 'cow', 'sheep', 'bear', 'zebra', 'giraffe'].includes(pred.class)
-            );
-
-            // Convertir a nuestro formato
-            const objects: DetectedObject[] = relevantObjects.map(pred => ({
-                x: pred.bbox[0],
-                y: pred.bbox[1],
-                width: pred.bbox[2],
-                height: pred.bbox[3],
-                confidence: pred.score,
-                class: pred.class
-            }));
-
-            setDetectedObjects(objects);
-
-            // Calcular distancia basada en el objeto más grande y confiable
-            if (objects.length > 0) {
-                const bestObject = objects.reduce((best, current) =>
-                    (current.confidence * current.width * current.height) > (best.confidence * best.width * best.height) ? current : best
+            if (model && !useFallback) {
+                // Usar TensorFlow.js si está disponible
+                const predictions = await model.detect(video);
+                
+                // Filtrar objetos relevantes (personas, animales, etc.)
+                const relevantObjects = predictions.filter(pred => 
+                    ['person', 'dog', 'cat', 'horse', 'cow', 'sheep', 'bear', 'zebra', 'giraffe'].includes(pred.class)
                 );
 
-                const distance = calculateDistance(bestObject, canvas.width, canvas.height);
-                setDistance(distance);
+                // Convertir a nuestro formato
+                const objects: DetectedObject[] = relevantObjects.map(pred => ({
+                    x: pred.bbox[0],
+                    y: pred.bbox[1],
+                    width: pred.bbox[2],
+                    height: pred.bbox[3],
+                    confidence: pred.score,
+                    class: pred.class
+                }));
+
+                setDetectedObjects(objects);
+
+                // Calcular distancia basada en el objeto más grande y confiable
+                if (objects.length > 0) {
+                    const bestObject = objects.reduce((best, current) => 
+                        (current.confidence * current.width * current.height) > (best.confidence * best.width * best.height) ? current : best
+                    );
+
+                    const distance = calculateDistance(bestObject, canvas.width, canvas.height);
+                    setDistance(distance);
+                } else {
+                    setDistance(null);
+                }
             } else {
-                setDistance(null);
+                // Usar detección simple como fallback
+                fallbackDetection();
             }
 
         } catch (error) {
@@ -149,7 +167,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
         setDetectedObjects(groupedObjects);
 
         if (groupedObjects.length > 0) {
-            const largestObject = groupedObjects.reduce((largest, current) =>
+            const largestObject = groupedObjects.reduce((largest, current) => 
                 (current.width * current.height) > (largest.width * largest.height) ? current : largest
             );
             const distance = calculateDistance(largestObject, canvas.width, canvas.height);
@@ -162,44 +180,44 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
     // Agrupar objetos cercanos
     const groupNearbyObjects = (objects: DetectedObject[]): DetectedObject[] => {
         const groups: DetectedObject[][] = [];
-
+        
         objects.forEach(obj => {
             let addedToGroup = false;
-
+            
             for (const group of groups) {
                 const groupCenter = group.reduce((acc, g) => ({
                     x: acc.x + g.x,
                     y: acc.y + g.y
                 }), { x: 0, y: 0 });
-
+                
                 groupCenter.x /= group.length;
                 groupCenter.y /= group.length;
-
+                
                 const distance = Math.sqrt(
                     Math.pow(obj.x - groupCenter.x, 2) + Math.pow(obj.y - groupCenter.y, 2)
                 );
-
+                
                 if (distance < 150) {
                     group.push(obj);
                     addedToGroup = true;
                     break;
                 }
             }
-
+            
             if (!addedToGroup) {
                 groups.push([obj]);
             }
         });
-
+        
         return groups.map(group => {
             const center = group.reduce((acc, g) => ({
                 x: acc.x + g.x,
                 y: acc.y + g.y
             }), { x: 0, y: 0 });
-
+            
             center.x /= group.length;
             center.y /= group.length;
-
+            
             return {
                 x: center.x,
                 y: center.y,
@@ -216,10 +234,10 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
         // Tamaño de referencia para un animal a 3 metros
         const referenceSize = Math.min(canvasWidth, canvasHeight) * 0.25;
         const objectSize = Math.max(object.width, object.height);
-
+        
         // Fórmula inversa: distancia = tamaño_referencia * distancia_referencia / tamaño_objeto
         const estimatedDistance = (referenceSize * 3) / objectSize;
-
+        
         return Math.max(1, Math.min(10, estimatedDistance)); // Limitar entre 1-10 metros
     };
 
@@ -239,7 +257,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
     };
 
     useEffect(() => {
-        if (isVisible && videoRef.current && model && !isModelLoading) {
+        if (isVisible && videoRef.current && !isModelLoading) {
             // Iniciar detección cuando la cámara esté lista
             const video = videoRef.current;
             if (video.readyState >= 2) { // HAVE_CURRENT_DATA
@@ -254,7 +272,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
                 cancelAnimationFrame(animationRef.current);
             }
         };
-    }, [isVisible, model, isModelLoading]);
+    }, [isVisible, isModelLoading, useFallback]);
 
     if (!isVisible) return null;
 
@@ -263,12 +281,12 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
     return (
         <div className="absolute inset-0 pointer-events-none camera-guide">
             {/* Canvas oculto para análisis */}
-            <canvas
-                ref={canvasRef}
+            <canvas 
+                ref={canvasRef} 
                 className="hidden"
                 style={{ position: 'absolute', top: '-9999px' }}
             />
-
+            
             {/* Línea de distancia interactiva */}
             <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center gap-2">
@@ -325,6 +343,13 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
                     )}
                 </div>
             </div>
+
+            {/* Indicador de modo de detección */}
+            {useFallback && (
+                <div className="absolute top-4 right-4 bg-yellow-500 text-white px-2 py-1 rounded text-xs">
+                    🔧 Modo Simple
+                </div>
+            )}
         </div>
     );
 };
