@@ -57,7 +57,7 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
 
                         // Calcular el tamaño real del objeto detectado
                         const objectSize = calculateObjectSize(data, x, y, canvas.width, canvas.height);
-                        
+
                         if (objectSize.area > largestArea && objectSize.area > 1000) { // Mínimo tamaño para ser un animal
                             largestArea = objectSize.area;
                             bestAnimal = {
@@ -96,38 +96,38 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
     const calculateObjectSize = (data: Uint8ClampedArray, startX: number, startY: number, canvasWidth: number, canvasHeight: number) => {
         let minX = startX, maxX = startX, minY = startY, maxY = startY;
         const visited = new Set();
-        const queue = [{x: startX, y: startY}];
-        
+        const queue = [{ x: startX, y: startY }];
+
         while (queue.length > 0) {
-            const {x, y} = queue.shift()!;
+            const { x, y } = queue.shift()!;
             const key = `${x},${y}`;
-            
+
             if (visited.has(key) || x < 0 || x >= canvasWidth || y < 0 || y >= canvasHeight) continue;
             visited.add(key);
-            
+
             const index = (y * canvasWidth + x) * 4;
             const r = data[index];
             const g = data[index + 1];
             const b = data[index + 2];
-            
+
             // Verificar si es el mismo color
             if ((r > 60 && g > 40 && b < 80) || // Marrón
                 (r < 60 && g < 60 && b < 60) ||  // Negro/Gris
                 (Math.abs(r - g) < 20 && Math.abs(g - b) < 20 && r < 120)) { // Gris uniforme
-                
+
                 minX = Math.min(minX, x);
                 maxX = Math.max(maxX, x);
                 minY = Math.min(minY, y);
                 maxY = Math.max(maxY, y);
-                
+
                 // Agregar vecinos a la cola
-                queue.push({x: x + 1, y});
-                queue.push({x: x - 1, y});
-                queue.push({x, y: y + 1});
-                queue.push({x, y: y - 1});
+                queue.push({ x: x + 1, y });
+                queue.push({ x: x - 1, y });
+                queue.push({ x, y: y + 1 });
+                queue.push({ x, y: y - 1 });
             }
         }
-        
+
         return {
             x: minX,
             y: minY,
@@ -142,10 +142,10 @@ export const CameraGuide: React.FC<CameraGuideProps> = ({ isVisible, videoRef })
         // Tamaño de referencia para un animal a 3 metros (ajustado para ser más realista)
         const referenceSize = Math.min(canvasWidth, canvasHeight) * 0.15; // 15% del frame
         const animalSize = Math.max(animal.width, animal.height);
-        
+
         // Fórmula inversa: distancia = tamaño_referencia * distancia_referencia / tamaño_animal
         const estimatedDistance = (referenceSize * 3) / animalSize;
-        
+
         return Math.max(1, Math.min(10, estimatedDistance)); // Limitar entre 1-10 metros
     };
 
