@@ -15,7 +15,7 @@ const URLS_TO_CACHE = [
   '/components/HistoryList.tsx',
   '/components/HistoryDetail.tsx',
   '/images/logo-toro-verde.png',
-  'https://cdn.tailwindcss.com',
+  '/manifest.json',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
 ];
 
@@ -30,6 +30,18 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Interceptar solicitudes de favicon.ico y redirigir al logo del toro
+  if (event.request.url.includes('favicon.ico')) {
+    event.respondWith(
+      fetch('/images/logo-toro-verde.png')
+        .catch(() => {
+          // Si no se puede cargar el logo, devolver una respuesta vacía
+          return new Response('', { status: 200, statusText: 'OK' });
+        })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -37,8 +49,8 @@ self.addEventListener('fetch', event => {
           return response;
         }
         return fetch(event.request);
-      }
-      )
+      })
+    )
   );
 });
 
