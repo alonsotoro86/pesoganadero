@@ -148,28 +148,40 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
                                 className="w-full h-64 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-600"
                             />
                             <CameraGuide isVisible={isCameraActive} />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="bg-black bg-opacity-50 text-white px-4 py-2 rounded-lg">
-                                    {isCameraActive ? 'Cámara activa' : 'Iniciando cámara...'}
+                            {/* Solo mostrar overlay cuando la cámara no está activa */}
+                            {!isCameraActive && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                    <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg">
+                                        Iniciando cámara...
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                         <canvas ref={canvasRef} className="hidden" />
                         <div className="flex gap-2 justify-center">
                             <button
                                 onClick={capturePhoto}
                                 disabled={!isCameraActive}
-                                className="btn-primary flex items-center gap-2"
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                                    isCameraActive 
+                                        ? 'bg-green-600 text-white hover:bg-green-700' 
+                                        : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                                }`}
                             >
                                 📸 Capturar Foto
                             </button>
                             <button
                                 onClick={stopCamera}
-                                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2"
+                                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
                             >
                                 ❌ Cancelar
                             </button>
                         </div>
+                        {isCameraActive && (
+                            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+                                💡 Posiciona el animal en el marco y haz clic en "Capturar Foto"
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className="space-y-4">
