@@ -29,6 +29,7 @@ const APP_URLS = [
   '/App.tsx',
   '/types.ts',
   '/services/geminiService.ts',
+  '/services/connectionService.ts',
   '/components/Header.tsx',
   '/components/ImageUploader.tsx',
   '/components/PhotoGuide.tsx',
@@ -37,7 +38,8 @@ const APP_URLS = [
   '/components/icons/index.tsx',
   '/components/HistoryList.tsx',
   '/components/HistoryDetail.tsx',
-  '/components/Footer.tsx'
+  '/components/Footer.tsx',
+  '/components/ConnectionStatus.tsx'
 ];
 
 // Estrategia de cache: Cache First para archivos estáticos
