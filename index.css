@@ -17,14 +17,17 @@
     animation: fade-in 0.3s ease-out;
 }
 
-/* Estilos para el logo de la vaca */
+/* Estilos para el logo del toro */
 .cow-icon {
-    color: #16a34a;
-    transition: color 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
 .cow-icon:hover {
-    color: #15803d;
+    transform: scale(1.05);
+}
+
+.cow-icon img {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 /* Estilos para el header */
@@ -67,11 +70,7 @@ input:focus {
 
 /* Estilos para el modo oscuro */
 @media (prefers-color-scheme: dark) {
-    .cow-icon {
-        color: #22c55e;
-    }
-
-    .cow-icon:hover {
-        color: #16a34a;
+    .cow-icon img {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) brightness(1.1);
     }
 }
