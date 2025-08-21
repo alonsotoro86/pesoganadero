@@ -65,30 +65,52 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, pre
     };
 
     const capturePhoto = () => {
-        if (videoRef.current && canvasRef.current) {
-            const video = videoRef.current;
-            const canvas = canvasRef.current;
-            const context = canvas.getContext('2d');
+        if (!videoRef.current || !canvasRef.current) {
+            console.error('Video o canvas no disponible');
+            return;
+        }
 
-            if (context) {
-                // Configurar el canvas con las dimensiones del video
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
 
-                // Dibujar el frame actual del video en el canvas
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        if (!context) {
+            console.error('No se pudo obtener el contexto del canvas');
+            return;
+        }
 
-                // Convertir el canvas a un archivo
-                canvas.toBlob((blob) => {
-                    if (blob) {
-                        const file = new File([blob], `foto-${Date.now()}.jpg`, {
-                            type: 'image/jpeg'
-                        });
-                        onImageUpload(file);
-                        stopCamera();
-                    }
-                }, 'image/jpeg', 0.9);
-            }
+        // Verificar que el video esté listo
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+            console.error('Video no está listo');
+            alert('Espera un momento para que la cámara se active completamente');
+            return;
+        }
+
+        try {
+            // Configurar el canvas con las dimensiones del video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Dibujar el frame actual del video en el canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convertir el canvas a un archivo
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    const file = new File([blob], `foto-${Date.now()}.jpg`, {
+                        type: 'image/jpeg'
+                    });
+                    console.log('Foto capturada exitosamente:', file.name);
+                    onImageUpload(file);
+                    stopCamera();
+                } else {
+                    console.error('Error al crear el blob de la imagen');
+                    alert('Error al capturar la foto. Intenta nuevamente.');
+                }
+            }, 'image/jpeg', 0.9);
+        } catch (error) {
+            console.error('Error al capturar la foto:', error);
+            alert('Error al capturar la foto. Intenta nuevamente.');
         }
     };
 
