@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { PhotoIcon, ArrowUpTrayIcon, CameraIcon } from './icons';
 import { PhotoGuide } from './PhotoGuide';
 import { CameraGuide } from './CameraGuide';
+import { DistanceInstructions } from './DistanceInstructions';
 
 interface ImageUploaderProps {
     onImageUpload: (file: File) => void;
