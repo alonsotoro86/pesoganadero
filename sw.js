@@ -7,6 +7,7 @@ const DYNAMIC_CACHE = 'peso-ganadero-dynamic-v2';
 const STATIC_URLS = [
   '/',
   '/index.html',
+  '/offline.html',
   '/manifest.json',
   '/src/index.css',
   '/images/logo-toro-verde.png',
