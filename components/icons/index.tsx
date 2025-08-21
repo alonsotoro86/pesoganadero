@@ -6,9 +6,9 @@ type IconProps = {
 };
 
 export const CowIcon: React.FC<IconProps> = ({ className = "h-12 w-12" }) => (
-    <img 
-        src="/images/logo-toro-verde.png" 
-        alt="Peso Ganadero AI Logo" 
+    <img
+        src="/images/logo-toro-verde.png"
+        alt="Peso Ganadero AI Logo"
         className={className}
         style={{ objectFit: 'contain' }}
     />
