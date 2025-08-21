@@ -12,7 +12,6 @@ import { HistoryList } from './components/HistoryList';
 import { HistoryDetail } from './components/HistoryDetail';
 import { Footer } from './components/Footer';
 import { ConnectionStatus } from './components/ConnectionStatus';
-import { CameraTest } from './components/CameraTest'; // Temporary test component
 
 const App: React.FC = () => {
     const [imageFile, setImageFile] = useState<File | null>(null);
