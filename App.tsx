@@ -7,7 +7,7 @@ import { Spinner } from './components/Spinner';
 import { analyzeCowImage, getErrorMessage, GeminiServiceError } from './services/geminiService';
 import { useConnectionStatus } from './services/connectionService';
 import type { CowAnalysisResult, HistoryEntry } from './types';
-import { ResetIcon, RocketIcon, SaveIcon, BackIcon } from './components/icons';
+import { ResetIcon, RocketIcon, SaveIcon, BackIcon, PhotoIcon, CameraIcon } from './components/icons';
 import { HistoryList } from './components/HistoryList';
 import { HistoryDetail } from './components/HistoryDetail';
 import { Footer } from './components/Footer';
@@ -25,6 +25,7 @@ const App: React.FC = () => {
     const [history, setHistory] = useState<HistoryEntry[]>([]);
     const [view, setView] = useState<'home' | 'result' | 'history' | 'historyDetail'>('home');
     const [selectedHistoryItemId, setSelectedHistoryItemId] = useState<string | null>(null);
+    const [openCamera, setOpenCamera] = useState<boolean>(false);
 
     // Connection status
     const connectionStatus = useConnectionStatus();
@@ -59,17 +60,25 @@ const App: React.FC = () => {
 
                     // Verificar actualizaciones
                     registration.addEventListener('updatefound', () => {
+                        console.log('🔄 Nueva versión del Service Worker disponible');
                         const newWorker = registration.installing;
                         if (newWorker) {
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // Nueva versión disponible
-                                    if (confirm('Hay una nueva versión disponible. ¿Deseas actualizar?')) {
-                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                        window.location.reload();
-                                    }
+                                    console.log('📦 Service Worker instalado, forzando actualización...');
+                                    // Forzar actualización automáticamente
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                    window.location.reload();
                                 }
                             });
+                        }
+                    });
+
+                    // Escuchar mensajes del Service Worker
+                    navigator.serviceWorker.addEventListener('message', event => {
+                        if (event.data && event.data.type === 'SKIP_WAITING') {
+                            console.log('🔄 Recibida señal de actualización, recargando página...');
+                            window.location.reload();
                         }
                     });
                 })
@@ -80,6 +89,20 @@ const App: React.FC = () => {
     }, []);
 
     const handleImageUpload = (file: File) => {
+        console.log('📁 handleImageUpload:', file.name, file.size, file.type);
+
+        // Si es un archivo vacío (para limpiar), resetear todo
+        if (file.size === 0 || file.name === 'empty.txt') {
+            console.log('🗑️ Limpiando imagen...');
+            setImageFile(null);
+            setImagePreviewUrl(null);
+            setAnalysisResult(null);
+            setError(null);
+            setIsLoading(false);
+            return;
+        }
+
+        // Procesar imagen normal
         setImageFile(file);
         setAnalysisResult(null);
         setError(null);
@@ -99,6 +122,7 @@ const App: React.FC = () => {
         setAnimalName('');
         setView('home');
         setSelectedHistoryItemId(null);
+        setOpenCamera(false);
     }, []);
 
     const fileToBase64 = (file: File): Promise<string> => {
@@ -162,7 +186,28 @@ const App: React.FC = () => {
     };
 
     const handleDeleteFromHistory = (id: string) => {
-        setHistory(prevHistory => prevHistory.filter(item => item.id !== id));
+        console.log('🗑️ Eliminando elemento del historial:', id);
+
+        // Si estamos viendo el detalle del elemento que se está eliminando,
+        // redirigir a la vista del historial
+        if (selectedHistoryItemId === id) {
+            console.log('🔄 Redirigiendo desde historyDetail a history');
+            setSelectedHistoryItemId(null);
+            setView('history');
+        }
+
+        // Eliminar el elemento del historial y verificar si queda vacío
+        setHistory(prevHistory => {
+            const newHistory = prevHistory.filter(item => item.id !== id);
+
+            // Si el historial queda vacío después de eliminar, volver al inicio
+            if (newHistory.length === 0) {
+                console.log('📭 Historial vacío, redirigiendo al inicio');
+                setView('home');
+            }
+
+            return newHistory;
+        });
     };
 
     const handleViewHistoryItem = (id: string) => {
@@ -181,8 +226,14 @@ const App: React.FC = () => {
                     <main className="mt-8 space-y-6">
                         {view === 'home' && (
                             <>
-                                <ImageUploader onImageUpload={handleImageUpload} previewUrl={imagePreviewUrl} />
-                                {imageFile && !isLoading && (
+                                <ImageUploader
+                                    onImageUpload={handleImageUpload}
+                                    previewUrl={imagePreviewUrl}
+                                    openCamera={openCamera}
+                                    onCameraOpened={() => setOpenCamera(false)}
+                                    onRequestCamera={() => setOpenCamera(true)}
+                                />
+                                {imageFile && !isLoading && !error && (
                                     <button
                                         onClick={handleAnalyzeClick}
                                         disabled={isLoading || !connectionStatus.isOnline}
@@ -206,9 +257,38 @@ const App: React.FC = () => {
                         {isLoading && <Spinner />}
 
                         {error && !isLoading && (
-                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
-                                <strong className="font-bold">Error: </strong>
-                                <span className="block sm:inline">{error}</span>
+                            <div className="space-y-4">
+                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+                                    <strong className="font-bold">Error: </strong>
+                                    <span className="block sm:inline">{error}</span>
+                                </div>
+
+                                {/* Botones de acción para errores */}
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={handleReset}
+                                        className="btn-gray flex-1 flex items-center justify-center gap-2"
+                                    >
+                                        <ResetIcon />
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setError(null);
+                                            setAnalysisResult(null);
+                                            setIsLoading(false); // Asegurar que no esté cargando
+                                            setImageFile(null);
+                                            setImagePreviewUrl(null);
+                                            setOpenCamera(true); // Abrir la cámara directamente
+                                        }}
+                                        className="btn-primary flex-1 flex items-center justify-center gap-2"
+                                    >
+                                        <CameraIcon />
+                                        Repetir Foto
+                                    </button>
+                                </div>
+
+                                {/* Este botón ya no es necesario porque "Tomar Nueva Foto" limpia la imagen */}
                             </div>
                         )}
 
@@ -262,7 +342,11 @@ const App: React.FC = () => {
                         )}
 
                         {view === 'historyDetail' && selectedHistoryItem && (
-                            <HistoryDetail item={selectedHistoryItem} onBack={() => setView('history')} />
+                            <HistoryDetail
+                                item={selectedHistoryItem}
+                                onBack={() => setView('history')}
+                                onDelete={() => handleDeleteFromHistory(selectedHistoryItem.id)}
+                            />
                         )}
                     </main>
                 </div>

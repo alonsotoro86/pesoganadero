@@ -224,3 +224,7 @@ export const PhotoGuide: React.FC<PhotoGuideProps> = ({ onClose }) => {
         </div>
     );
 };
+
+
+
+

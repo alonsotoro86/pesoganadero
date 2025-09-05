@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'peso-ganadero-v4';
+const CACHE_NAME = 'peso-ganadero-v8';
 const STATIC_CACHE = 'peso-ganadero-static-v2';
 const DYNAMIC_CACHE = 'peso-ganadero-dynamic-v2';
 
@@ -212,6 +212,34 @@ self.addEventListener('fetch', event => {
 
   // Fallback para otras solicitudes
   event.respondWith(networkFirst(request));
+});
+
+// Activación del Service Worker
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    Promise.all([
+      // Limpiar caches antiguos
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+              console.log('🗑️ Eliminando cache antiguo:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+      // Forzar actualización inmediata
+      self.clients.claim(),
+      // Forzar actualización de todos los clientes
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({ type: 'SKIP_WAITING' });
+        });
+      })
+    ])
+  );
+  console.log('✅ Service Worker activado:', CACHE_NAME);
 });
 
 // Manejo de mensajes del cliente

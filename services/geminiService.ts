@@ -13,11 +13,11 @@ const analysisSchema = {
         },
         raza: {
             type: Type.STRING,
-            description: "La raza más probable de la vaca, por ejemplo, 'Holstein', 'Angus', 'Brahman'."
+            description: "La raza más probable de la vaca, por ejemplo, 'Holstein', 'Angus', 'Brahman', 'Jersey', 'Simmental'."
         },
         comentarios: {
             type: Type.STRING,
-            description: "Un breve análisis de la condición corporal de la vaca y cualquier otra observación relevante. Máximo 2-3 frases."
+            description: "Análisis detallado incluyendo condición corporal, edad estimada y características distintivas."
         }
     },
     required: ["peso_kg", "raza", "comentarios"]
@@ -62,7 +62,37 @@ export const analyzeCowImage = async (base64Image: string, mimeType: string): Pr
 
     const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-    const prompt = "Analiza la imagen de esta vaca. Estima su peso en kilogramos, identifica su raza probable y proporciona un breve comentario sobre su condición corporal. Responde únicamente en el formato JSON especificado.";
+    const prompt = `Analiza la imagen con máxima precisión para estimar el peso de ganado bovino.
+
+METODOLOGÍA DE ANÁLISIS:
+1. SOLO analiza si la imagen contiene claramente un animal bovino completo
+2. Si la imagen es borrosa, muestra solo partes del animal, o no contiene un bovino, responde con error
+
+CÁLCULO DE PESO PRECISO:
+- Analiza el tamaño corporal relativo al frame de la imagen
+- Considera la condición corporal (magro, normal, gordo)
+- Identifica la edad aparente (ternero, novillo, adulto)
+- Determina el sexo (toros son más pesados que vacas)
+- Ajusta según la raza identificada
+
+FACTORES DE PESO POR EDAD Y RAZA:
+- TERNEROS (0-6 meses): 50-200 kg
+- NOVILLOS (6-18 meses): 200-500 kg
+- VACAS ADULTAS: 400-800 kg
+- TOROS ADULTOS: 600-1200 kg
+
+AJUSTES POR RAZA:
+- Holstein, Simmental: +15% peso
+- Angus, Hereford: peso estándar
+- Jersey, Dexter: -20% peso
+- Brahman: +10% peso
+
+IDENTIFICACIÓN DE RAZA:
+- Analiza color del pelaje, forma de cabeza, conformación corporal
+- Considera patrones de coloración específicos
+- Identifica características distintivas de cada raza
+
+Responde únicamente en el formato JSON especificado con la máxima precisión posible.`;
 
     try {
         const imagePart = {
@@ -94,22 +124,48 @@ export const analyzeCowImage = async (base64Image: string, mimeType: string): Pr
         } catch (parseError) {
             console.error("Error parsing JSON from Gemini API:", parseError);
             throw new GeminiServiceError(
-                "La respuesta de la IA no es válida. Intenta con otra imagen.",
+                "No se pudo procesar la respuesta de la IA. Intenta con otra imagen.",
                 'invalid_response'
             );
         }
 
+        // Verificar si la IA indicó que no puede analizar la imagen
+        if (result.comentarios && (
+            result.comentarios.toLowerCase().includes('no puedo') ||
+            result.comentarios.toLowerCase().includes('no se puede') ||
+            result.comentarios.toLowerCase().includes('no hay animal') ||
+            result.comentarios.toLowerCase().includes('no contiene') ||
+            result.comentarios.toLowerCase().includes('no es visible') ||
+            result.comentarios.toLowerCase().includes('borrosa') ||
+            result.comentarios.toLowerCase().includes('error')
+        )) {
+            throw new GeminiServiceError(
+                "La IA no pudo detectar un animal bovino en la imagen. Asegúrate de que la foto sea clara y muestre completamente al animal.",
+                'invalid_response'
+            );
+        }
+
+        // Validar campos requeridos
         if (!result.peso_kg || !result.raza || !result.comentarios) {
             throw new GeminiServiceError(
-                "La respuesta de la IA no tiene el formato esperado. Intenta con otra imagen.",
+                "Respuesta incompleta del análisis. Asegúrate de que la foto sea clara y muestre completamente al animal.",
                 'invalid_response'
             );
         }
 
-        // Validar que el peso sea razonable
-        if (result.peso_kg < 50 || result.peso_kg > 1500) {
+        // Validar rangos de valores
+        if (result.peso_kg < 30 || result.peso_kg > 2000) {
             throw new GeminiServiceError(
                 "El peso estimado no parece realista. Asegúrate de que la imagen sea clara y muestre bien al animal.",
+                'invalid_response'
+            );
+        }
+
+        // Validar edad estimada
+        const edadesValidas = ['Ternero', 'Novillo', 'Adulto'];
+        if (!edadesValidas.includes(result.edad_estimada)) {
+            throw new GeminiServiceError(
+                "No se pudo determinar la edad del animal. Intenta con otra imagen.",
                 'invalid_response'
             );
         }
@@ -158,7 +214,7 @@ export const getErrorMessage = (error: GeminiServiceError): string => {
         case 'api_error':
             return "🔧 Error en el servicio. Intenta nuevamente en unos momentos.";
         case 'invalid_response':
-            return "🖼️ La imagen no pudo ser analizada. Intenta con otra foto más clara.";
+            return "🐄 No se pudo detectar un animal bovino en la imagen. Asegúrate de que la foto sea clara y muestre completamente al animal.";
         case 'unknown':
         default:
             return "❌ Error inesperado. Intenta nuevamente.";
